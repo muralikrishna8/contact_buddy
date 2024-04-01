@@ -4,9 +4,11 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 import 'ContactView.dart';
 
-void main() => runApp(ContactsBuddy());
+void main() => runApp(const ContactsBuddy());
 
 class ContactsBuddy extends StatefulWidget {
+  const ContactsBuddy({Key? key}) : super(key: key);
+
   @override
   _ContactsBuddyState createState() => _ContactsBuddyState();
 }
@@ -33,11 +35,16 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-      home: Scaffold(appBar: AppBar(title: Text('Contacts 📞')), body: _body()));
+      home: Scaffold(
+          appBar: AppBar(title: const Text('Contacts 📞')), body: _body()));
 
   Widget _body() {
-    if (_permissionDenied) return Center(child: Text('Permission denied'));
-    if (_contacts == null) return Center(child: CircularProgressIndicator());
+    if (_permissionDenied) {
+      return const Center(child: Text('Permission denied'));
+    }
+    if (_contacts == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     return GridView.count(
       crossAxisCount: 3,
@@ -64,7 +71,7 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
 class ContactPage extends StatelessWidget {
   final Contact contact;
 
-  ContactPage(this.contact);
+  const ContactPage(this.contact, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Scaffold(
