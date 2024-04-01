@@ -25,18 +25,24 @@ class ContactView extends StatelessWidget {
                         if (fullContact.thumbnail != null)
                           ClipOval(
                             child: SizedBox.fromSize(
-                                size: const Size.fromRadius(45), // Image radius
+                                size: const Size.fromRadius(50), // Image radius
                                 child: Image.memory(
                                   fullContact.thumbnail!,
                                   fit: BoxFit.contain,
                                 )),
                           )
                         else
-                          Icon(
-                            Icons.account_circle,
-                            size: 80,
-                            color: Colors.primaries[
+                          CircleAvatar(
+                            backgroundColor: Colors.primaries[
                                 Random().nextInt(Colors.primaries.length)],
+                            radius: 50,
+                            child: Text(
+                              contact.displayName[0].toUpperCase(),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 60,
+                                  fontWeight: FontWeight.normal),
+                            ),
                           ),
                         const CallIconView()
                       ],
@@ -75,7 +81,7 @@ class CallIconView extends StatelessWidget {
               ]),
           child: const Padding(
             padding: EdgeInsets.all(5.0),
-            child: Icon(Icons.call_outlined, size: 17),
+            child: Icon(Icons.call_outlined, size: 20),
           ),
         ));
   }
