@@ -49,14 +49,8 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
           _contacts!.length,
           (index) => InkWell(
                 onTap: () async {
-                  print(_contacts![index]);
-                  final fullContact =
-                      await FlutterContacts.getContact(_contacts![index].id);
-                  print("===========\n");
-                  print(fullContact?.thumbnail != null ? 'present' : 'no');
-                  print(fullContact?.thumbnail);
                   await FlutterPhoneDirectCaller.callNumber(
-                      fullContact!.phones.first.number);
+                      _contacts![index].phones.first.number);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),
