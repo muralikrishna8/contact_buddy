@@ -44,7 +44,7 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
       padding: const EdgeInsets.all(5),
       crossAxisSpacing: 5,
       mainAxisSpacing: 5,
-      childAspectRatio: 0.90,
+      childAspectRatio: 0.80,
       children: List.generate(
           _contacts!.length,
           (index) => InkWell(
