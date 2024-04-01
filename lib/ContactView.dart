@@ -35,9 +35,10 @@ class ContactView extends StatelessWidget {
                           CircleAvatar(
                             backgroundColor: Colors.primaries[
                                 Random().nextInt(Colors.primaries.length)],
-                            foregroundImage: fullContact.thumbnail == null
+                            foregroundImage: fullContact.photoOrThumbnail ==
+                                    null
                                 ? null
-                                : MemoryImage(fullContact.thumbnail!),
+                                : MemoryImage(fullContact.photoOrThumbnail!),
                             radius: 50,
                             child: Text(
                               contact.displayName[0].toUpperCase(),
