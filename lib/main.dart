@@ -1,17 +1,18 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
-void main() => runApp(FlutterContactsExample());
+import 'ContactView.dart';
 
-class FlutterContactsExample extends StatefulWidget {
+void main() => runApp(ContactsBuddy());
+
+class ContactsBuddy extends StatefulWidget {
   @override
-  _FlutterContactsExampleState createState() => _FlutterContactsExampleState();
+  _ContactsBuddyState createState() => _ContactsBuddyState();
 }
 
-class _FlutterContactsExampleState extends State<FlutterContactsExample> {
+class _ContactsBuddyState extends State<ContactsBuddy> {
   List<Contact>? _contacts;
   bool _permissionDenied = false;
 
@@ -25,29 +26,28 @@ class _FlutterContactsExampleState extends State<FlutterContactsExample> {
     if (!await FlutterContacts.requestPermission(readonly: true)) {
       setState(() => _permissionDenied = true);
     } else {
-      final contacts = await FlutterContacts.getContacts(
-          withProperties: true, withThumbnail: true, sorted: true);
+      final contacts =
+          await FlutterContacts.getContacts(withProperties: true, sorted: true);
       setState(() => _contacts = contacts.where((c) => c.isStarred).toList());
     }
   }
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(title: Text('flutter_contacts_example')),
-          body: _body()));
+      home: Scaffold(appBar: AppBar(title: Text('Contacts 📞')), body: _body()));
 
   Widget _body() {
     if (_permissionDenied) return Center(child: Text('Permission denied'));
     if (_contacts == null) return Center(child: CircularProgressIndicator());
 
     return GridView.count(
-      crossAxisCount: 2,
+      crossAxisCount: 3,
       primary: true,
-      padding: const EdgeInsets.all(20),
-      crossAxisSpacing: 20,
-      mainAxisSpacing: 20,
-      shrinkWrap: false,
+      padding: const EdgeInsets.all(5),
+      crossAxisSpacing: 5,
+      mainAxisSpacing: 5,
+      shrinkWrap: true,
+      childAspectRatio: 0.90,
       children: List.generate(
           _contacts!.length,
           (index) => InkWell(
@@ -63,39 +63,11 @@ class _FlutterContactsExampleState extends State<FlutterContactsExample> {
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if (_contacts![index].thumbnail != null)
-                          ClipOval(
-                            child: SizedBox.fromSize(
-                              size: Size.fromRadius(48), // Image radius
-                              child: Image.memory(_contacts![index].thumbnail!),
-                            ),
-                          )
-                        else
-                          Icon(
-                            Icons.account_circle,
-                            size: 80,
-                            color: Colors.primaries[
-                                Random().nextInt(Colors.primaries.length)],
-                          ),
-                        Text(_contacts![index].displayName)
-                      ]),
+                  child: ContactView(_contacts![index]),
                 ),
               )),
     );
 
-    // return ListView.builder(
-    //     itemCount: _contacts!.length,
-    //     itemBuilder: (context, i) => ListTile(
-    //         title: Text(_contacts![i].displayName),
-    //         onTap: () async {
-    //           final fullContact =
-    //               await FlutterContacts.getContact(_contacts![i].id);
-    //           await Navigator.of(context).push(
-    //               MaterialPageRoute(builder: (_) => ContactPage(fullContact!)));
-    //         }));
   }
 }
 
