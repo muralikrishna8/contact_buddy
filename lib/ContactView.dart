@@ -76,9 +76,10 @@ class CallIconView extends StatelessWidget {
                   offset: const Offset(0, 1), // changes position of shadow
                 ),
               ]),
-          child: const Padding(
+          child: Padding(
             padding: EdgeInsets.all(5.0),
-            child: Icon(Icons.call_outlined, size: 20),
+            child: Icon(Icons.call_outlined,
+                size: 20, color: Theme.of(context).primaryColor),
           ),
         ));
   }

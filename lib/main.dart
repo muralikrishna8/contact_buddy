@@ -3,6 +3,7 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 import 'ContactView.dart';
+import 'Themes.dart';
 
 void main() => runApp(const ContactsBuddy());
 
@@ -35,6 +36,9 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
+      theme: Themes.lightTheme,
+      darkTheme: Themes.darkTheme,
+      themeMode: ThemeMode.system,
       home: Scaffold(
           appBar: AppBar(title: const Text('Contacts 📞')), body: _body()));
 
