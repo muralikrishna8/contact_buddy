@@ -19,7 +19,6 @@ class ContactView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                    height: 100,
                     child: Stack(
                       children: [
                         if (fullContact.thumbnail != null)
@@ -65,7 +64,7 @@ class CallIconView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-        bottom: 10,
+        bottom: 3,
         right: 0,
         child: Container(
           decoration: ShapeDecoration(
