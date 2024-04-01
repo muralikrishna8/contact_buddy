@@ -18,34 +18,32 @@ class ContactView extends StatelessWidget {
             return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    child: Stack(
-                      children: [
-                        if (fullContact.thumbnail != null)
-                          ClipOval(
-                            child: SizedBox.fromSize(
-                                size: const Size.fromRadius(50), // Image radius
-                                child: Image.memory(
-                                  fullContact.thumbnail!,
-                                  fit: BoxFit.contain,
-                                )),
-                          )
-                        else
-                          CircleAvatar(
-                            backgroundColor: Colors.primaries[
-                                Random().nextInt(Colors.primaries.length)],
-                            radius: 50,
-                            child: Text(
-                              contact.displayName[0].toUpperCase(),
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 60,
-                                  fontWeight: FontWeight.normal),
-                            ),
+                  Stack(
+                    children: [
+                      if (fullContact.thumbnail != null)
+                        ClipOval(
+                          child: SizedBox.fromSize(
+                              size: const Size.fromRadius(50), // Image radius
+                              child: Image.memory(
+                                fullContact.thumbnail!,
+                                fit: BoxFit.contain,
+                              )),
+                        )
+                      else
+                        CircleAvatar(
+                          backgroundColor: Colors.primaries[
+                              Random().nextInt(Colors.primaries.length)],
+                          radius: 50,
+                          child: Text(
+                            contact.displayName[0].toUpperCase(),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 60,
+                                fontWeight: FontWeight.normal),
                           ),
-                        const CallIconView()
-                      ],
-                    ),
+                        ),
+                      const CallIconView()
+                    ],
                   ),
                   Text(fullContact.displayName)
                 ]);
