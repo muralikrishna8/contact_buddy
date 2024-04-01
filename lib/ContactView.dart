@@ -18,27 +18,65 @@ class ContactView extends StatelessWidget {
             return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  if (fullContact.thumbnail != null)
-                    ClipOval(
-                      child: SizedBox.fromSize(
-                          size: const Size.fromRadius(45), // Image radius
-                          child: Image.memory(
-                            fullContact.thumbnail!,
-                            fit: BoxFit.contain,
-                          )),
-                    )
-                  else
-                    Icon(
-                      Icons.account_circle,
-                      size: 80,
-                      color: Colors
-                          .primaries[Random().nextInt(Colors.primaries.length)],
+                  Container(
+                    height: 100,
+                    child: Stack(
+                      children: [
+                        if (fullContact.thumbnail != null)
+                          ClipOval(
+                            child: SizedBox.fromSize(
+                                size: const Size.fromRadius(45), // Image radius
+                                child: Image.memory(
+                                  fullContact.thumbnail!,
+                                  fit: BoxFit.contain,
+                                )),
+                          )
+                        else
+                          Icon(
+                            Icons.account_circle,
+                            size: 80,
+                            color: Colors.primaries[
+                                Random().nextInt(Colors.primaries.length)],
+                          ),
+                        const CallIconView()
+                      ],
                     ),
+                  ),
                   Text(fullContact.displayName)
                 ]);
           } else {
             return const CircularProgressIndicator();
           }
         });
+  }
+}
+
+class CallIconView extends StatelessWidget {
+  const CallIconView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+        bottom: 10,
+        right: 0,
+        child: Container(
+          decoration: ShapeDecoration(
+              shape: const CircleBorder(),
+              color: Colors.white,
+              shadows: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  offset: const Offset(0, 1), // changes position of shadow
+                ),
+              ]),
+          child: const Padding(
+            padding: EdgeInsets.all(5.0),
+            child: Icon(Icons.call_outlined, size: 17),
+          ),
+        ));
   }
 }

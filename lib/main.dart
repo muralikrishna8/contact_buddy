@@ -42,11 +42,9 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
 
     return GridView.count(
       crossAxisCount: 3,
-      primary: true,
       padding: const EdgeInsets.all(5),
       crossAxisSpacing: 5,
       mainAxisSpacing: 5,
-      shrinkWrap: true,
       childAspectRatio: 0.90,
       children: List.generate(
           _contacts!.length,
