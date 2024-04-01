@@ -50,22 +50,25 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    return GridView.count(
-      crossAxisCount: 3,
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        childAspectRatio: 0.80,
+      ),
+      itemCount: _contacts!.length,
       padding: const EdgeInsets.all(5),
-      childAspectRatio: 0.80,
-      children: List.generate(
-          _contacts!.length,
-          (index) => InkWell(
-                onTap: () async {
-                  await FlutterPhoneDirectCaller.callNumber(
-                      _contacts![index].phones.first.number);
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: ContactView(_contacts![index]),
-                ),
-              )),
+      itemBuilder: (context, index) {
+        return InkWell(
+          onTap: () async {
+            await FlutterPhoneDirectCaller.callNumber(
+                _contacts![index].phones.first.number);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: ContactView(_contacts![index]),
+          ),
+        );
+      },
     );
   }
 }
