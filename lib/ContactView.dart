@@ -31,6 +31,7 @@ class ContactView extends StatelessWidget {
                             )
                           ]),
                       child: Stack(
+                        clipBehavior: Clip.antiAlias,
                         children: [
                           CircleAvatar(
                             backgroundColor: Colors.primaries[
@@ -50,7 +51,6 @@ class ContactView extends StatelessWidget {
                           ),
                           const CallIconView()
                         ],
-                        clipBehavior: Clip.antiAlias,
                       )),
                   Text(fullContact.displayName)
                 ]);
@@ -84,7 +84,7 @@ class CallIconView extends StatelessWidget {
                 ),
               ]),
           child: Padding(
-            padding: EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(5.0),
             child: Icon(Icons.call_outlined,
                 size: 20, color: Theme.of(context).primaryColor),
           ),
