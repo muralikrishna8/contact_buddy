@@ -40,7 +40,12 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
       darkTheme: Themes.darkTheme,
       themeMode: ThemeMode.system,
       home: Scaffold(
-          appBar: AppBar(title: const Text('Contacts 📞')), body: _body()));
+          appBar: AppBar(
+              title: const Center(
+                  child: Text(
+            'Contacts 📞',
+          ))),
+          body: _body()));
 
   Widget _body() {
     if (_permissionDenied) {
@@ -53,10 +58,9 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
-        childAspectRatio: 0.80,
+        childAspectRatio: 0.68,
       ),
       itemCount: _contacts!.length,
-      padding: const EdgeInsets.all(5),
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () async {
@@ -64,7 +68,7 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
                 _contacts![index].phones.first.number);
           },
           child: Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(5),
             child: ContactView(_contacts![index]),
           ),
         );
