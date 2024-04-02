@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 import 'Themes.dart';
 import 'contact_view.dart';
@@ -62,36 +61,13 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
       ),
       itemCount: _contacts!.length,
       itemBuilder: (context, index) {
-        return InkWell(
-          onTap: () async {
-            await FlutterPhoneDirectCaller.callNumber(
-                _contacts![index].phones.first.number);
-          },
-          child: Container(
-            padding: const EdgeInsets.all(5),
-            child: ContactView(_contacts![index]),
-          ),
+        return Container(
+          padding: const EdgeInsets.all(5),
+          child: ContactView(_contacts![index]),
         );
       },
     );
   }
 }
 
-class ContactPage extends StatelessWidget {
-  final Contact contact;
 
-  const ContactPage(this.contact, {Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(title: Text(contact.displayName)),
-      body: Column(children: [
-        Text('Starred: ${contact.isStarred}'),
-        Text('First name: ${contact.name.first}'),
-        Text('Last name: ${contact.name.last}'),
-        Text(
-            'Phone number: ${contact.phones.isNotEmpty ? contact.phones.first.number : '(none)'}'),
-        Text(
-            'Email address: ${contact.emails.isNotEmpty ? contact.emails.first.address : '(none)'}'),
-      ]));
-}
