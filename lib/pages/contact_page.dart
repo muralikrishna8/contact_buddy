@@ -10,12 +10,14 @@ class ContactPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print(contact.phones);
     return Scaffold(
-        appBar: AppBar(title: Center(child: Text(contact.displayName))),
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+        ),
         body: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             _photo(context),
-            const SizedBox(height: 20),
             _nameAndPhone(),
             Container(
               decoration: const BoxDecoration(
@@ -106,9 +108,9 @@ class ContactPage extends StatelessWidget {
   Container _photo(BuildContext context) {
     return contact.photoOrThumbnail == null
         ? Container(
-            decoration: BoxDecoration(
-                color: const Color(0x88343435),
-                borderRadius: const BorderRadius.all(Radius.circular(5))),
+            decoration: const BoxDecoration(
+                color: Color(0x88343435),
+                borderRadius: BorderRadius.all(Radius.circular(5))),
             margin: const EdgeInsetsDirectional.only(top: 2),
             width: MediaQuery.of(context).size.width,
             height: 300,
