@@ -18,6 +18,7 @@ class ContactPage extends StatelessWidget {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             _photo(context),
+            const SizedBox(height: 20),
             _nameAndPhone(),
             Container(
               decoration: const BoxDecoration(
