@@ -38,6 +38,7 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
       theme: Themes.lightTheme,
       darkTheme: Themes.darkTheme,
       themeMode: ThemeMode.system,
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
           appBar: AppBar(
               title: const Center(
