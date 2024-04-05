@@ -1,3 +1,4 @@
+import 'package:contact_buddy/utils/CustomImageCache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
@@ -144,10 +145,9 @@ class ContactPage extends StatelessWidget {
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(0))),
               clipBehavior: Clip.antiAlias,
-              child: Image.memory(
-                contact.photoOrThumbnail!,
-                scale: 0.1,
-              ),
+              child: Image(
+                  image: CacheMemoryImageProvider(
+                      contact.id, contact.photoOrThumbnail!)),
             ),
             _bottomDecoratedShape(context)
           ]);

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:contact_buddy/pages/contact_page.dart';
+import 'package:contact_buddy/utils/CustomImageCache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 
@@ -72,10 +73,10 @@ class FavoriteContact extends StatelessWidget {
                                           BorderRadius.all(Radius.circular(5))),
                                   margin: const EdgeInsets.all(3),
                                   clipBehavior: Clip.antiAlias,
-                                  child: Image.memory(
-                                    fullContact.photoOrThumbnail!,
-                                    scale: 0.5,
-                                  ),
+                                  child: Image(
+                                      image: CacheMemoryImageProvider(
+                                          fullContact.id,
+                                          fullContact.photoOrThumbnail!)),
                                 ),
                           const CallIconView()
                         ],
