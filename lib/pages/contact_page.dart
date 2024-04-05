@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 class ContactPage extends StatelessWidget {
   final Contact contact;
@@ -14,6 +15,7 @@ class ContactPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
         ),
+        floatingActionButton: _buildFloatingActionButton(context),
         body: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -38,6 +40,15 @@ class ContactPage extends StatelessWidget {
             ),
           ]),
         ));
+  }
+
+  FloatingActionButton _buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+        onPressed: () {
+          FlutterPhoneDirectCaller.callNumber(contact.phones.first.number);
+        },
+        backgroundColor: Theme.of(context).primaryColor,
+        child: const Icon(Icons.call_outlined));
   }
 
   Row _email(BuildContext context) {
@@ -161,33 +172,9 @@ class ContactPage extends StatelessWidget {
     return Container(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                contact.displayName,
-                style: const TextStyle(fontSize: 40),
-              ),
-              Container(
-                decoration: ShapeDecoration(
-                    shape: const CircleBorder(),
-                    color: Theme.of(context).primaryColor,
-                    shadows: [
-                      BoxShadow(
-                        color: Theme.of(context).primaryColor,
-                        spreadRadius: 0,
-                        blurRadius: 0,
-                        offset:
-                            const Offset(0, 1), // changes position of shadow
-                      ),
-                    ]),
-                child: const Padding(
-                  padding: EdgeInsets.all(5.0),
-                  child:
-                      Icon(Icons.call_outlined, size: 30, color: Colors.white),
-                ),
-              )
-            ],
+          Text(
+            contact.displayName,
+            style: const TextStyle(fontSize: 40),
           ),
           for (var phone in contact.phones) _number(phone),
         ]));
