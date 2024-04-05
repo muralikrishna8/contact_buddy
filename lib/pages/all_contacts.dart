@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart';
 
+import 'contact_page.dart';
+
 class AllContacts extends StatelessWidget {
   final List<Contact> contacts;
 
@@ -15,6 +17,14 @@ class AllContacts extends StatelessWidget {
         itemBuilder: (context, index) {
           var contact = contacts[index];
           return ListTile(
+            onTap: () {
+              // TODO: currently only showing the thumbnail, try to fetch the photo
+              // from this view as well
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ContactPage(contact)));
+            },
             title: Row(
               children: [
                 contact.thumbnail == null
@@ -44,7 +54,9 @@ class AllContacts extends StatelessWidget {
                         child: Image.memory(contact.thumbnail!),
                       ),
                 const SizedBox(width: 10),
-                Text(contacts[index].displayName),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width - 100,
+                    child: Text(contacts[index].displayName, softWrap: true)),
               ],
             ),
           );
