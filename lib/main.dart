@@ -19,7 +19,9 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
   List<Contact> _contacts = [];
   List<Contact>? _favoriteContacts;
   bool _permissionDenied = false;
-  int _currentPageIndex = 1;
+  int _currentPageIndex = 0;
+
+  final PageController _pageController = PageController(initialPage: 0);
 
   @override
   void initState() {
@@ -54,7 +56,15 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
                   child: Text(
             'Contacts 📞',
           ))),
-          body: Container(child: _body()[_currentPageIndex]),
+          body: PageView(
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() {
+                _currentPageIndex = index;
+              });
+            },
+            children: _body(),
+          ),
           bottomNavigationBar: Container(
             color: Colors.black,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -76,9 +86,9 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
               ],
               selectedIndex: _currentPageIndex,
               onTabChange: (int index) {
-                setState(() {
-                  _currentPageIndex = index;
-                });
+                _pageController.animateToPage(index,
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.ease);
               },
             ),
           ),
