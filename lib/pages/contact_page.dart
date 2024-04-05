@@ -126,17 +126,7 @@ class ContactPage extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
-                bottom: 0,
-                child: ClipPath(
-                  clipper: TriangleClipper(),
-                  child: Container(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    height: 70,
-                    width: MediaQuery.of(context).size.width,
-                  ),
-                ),
-              )
+              _bottomDecoratedShape(context)
             ],
           )
         : Stack(children: [
@@ -149,18 +139,22 @@ class ContactPage extends StatelessWidget {
                 scale: 0.1,
               ),
             ),
-            Positioned(
-              bottom: 0,
-              child: ClipPath(
-                clipper: TriangleClipper(),
-                child: Container(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  height: 70,
-                  width: MediaQuery.of(context).size.width,
-                ),
-              ),
-            )
+            _bottomDecoratedShape(context)
           ]);
+  }
+
+  Positioned _bottomDecoratedShape(BuildContext context) {
+    return Positioned(
+      bottom: 0,
+      child: ClipPath(
+        clipper: TriangleClipper(),
+        child: Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          height: 70,
+          width: MediaQuery.of(context).size.width,
+        ),
+      ),
+    );
   }
 
   Container _nameAndPhone(BuildContext context) {
