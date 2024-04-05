@@ -4,7 +4,7 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import 'Themes.dart';
-import 'contact_view.dart';
+import 'favorite_contact.dart';
 
 void main() => runApp(const ContactsBuddy());
 
@@ -112,7 +112,7 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
       itemBuilder: (context, index) {
         return Container(
           padding: const EdgeInsets.all(5),
-          child: ContactView(_favoriteContacts![index]),
+          child: FavoriteContact(_favoriteContacts![index]),
         );
       },
     );
