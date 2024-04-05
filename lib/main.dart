@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 import 'Themes.dart';
 import 'contact_view.dart';
@@ -34,7 +35,7 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
     }
   }
 
-  _body() => [_favorites(), const Text('events')];
+  _body() => [_favorites(), const Text('events'), const Text('All contacts')];
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -48,20 +49,33 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
                   child: Text(
             'Contacts 📞',
           ))),
-          body: _body()[_currentPageIndex],
-          bottomNavigationBar: NavigationBar(
-            destinations: const [
-              NavigationDestination(
-                  icon: Icon(Icons.star_border_purple500_outlined),
-                  label: 'favorites'),
-              NavigationDestination(icon: Icon(Icons.cake), label: 'events'),
-            ],
-            selectedIndex: _currentPageIndex,
-            onDestinationSelected: (int index) {
-              setState(() {
-                _currentPageIndex = index;
-              });
-            },
+          body: Container(child: _body()[_currentPageIndex]),
+          bottomNavigationBar: Container(
+            color: Colors.black,
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: GNav(
+              backgroundColor: Colors.black,
+              tabBackgroundColor: Colors.grey.shade900,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              gap: 8,
+              tabs: const [
+                GButton(
+                  icon: Icons.star_border_purple500_outlined,
+                  text: 'Favorites',
+                ),
+                GButton(icon: Icons.cake, text: 'Events'),
+                GButton(
+                  icon: Icons.contacts_outlined,
+                  text: 'Contacts',
+                ),
+              ],
+              selectedIndex: _currentPageIndex,
+              onTabChange: (int index) {
+                setState(() {
+                  _currentPageIndex = index;
+                });
+              },
+            ),
           ),
         ),
       );
@@ -89,5 +103,3 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
     );
   }
 }
-
-
