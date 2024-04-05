@@ -9,7 +9,6 @@ class ContactPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(contact.phones);
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(

@@ -1,3 +1,4 @@
+import 'package:contact_buddy/pages/all_contacts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -15,7 +16,8 @@ class ContactsBuddy extends StatefulWidget {
 }
 
 class _ContactsBuddyState extends State<ContactsBuddy> {
-  List<Contact>? _contacts;
+  List<Contact> _contacts = [];
+  List<Contact>? _favoriteContacts;
   bool _permissionDenied = false;
   int _currentPageIndex = 1;
 
@@ -29,13 +31,16 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
     if (!await FlutterContacts.requestPermission(readonly: true)) {
       setState(() => _permissionDenied = true);
     } else {
-      final contacts =
-          await FlutterContacts.getContacts(withProperties: true, sorted: true);
-      setState(() => _contacts = contacts.where((c) => c.isStarred).toList());
+      final contacts = await FlutterContacts.getContacts(
+          withProperties: true, withThumbnail: true, sorted: true);
+      setState(() {
+        _contacts = contacts;
+        _favoriteContacts = contacts.where((c) => c.isStarred).toList();
+      });
     }
   }
 
-  _body() => [_favorites(), const Text('events'), const Text('All contacts')];
+  _body() => [_favorites(), const Text('events'), AllContacts(_contacts)];
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -84,7 +89,7 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
     if (_permissionDenied) {
       return const Center(child: Text('Permission denied'));
     }
-    if (_contacts == null) {
+    if (_favoriteContacts == null) {
       return const Center(child: CircularProgressIndicator());
     }
 
@@ -93,11 +98,11 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
         crossAxisCount: 3,
         childAspectRatio: 0.68,
       ),
-      itemCount: _contacts!.length,
+      itemCount: _favoriteContacts!.length,
       itemBuilder: (context, index) {
         return Container(
           padding: const EdgeInsets.all(5),
-          child: ContactView(_contacts![index]),
+          child: ContactView(_favoriteContacts![index]),
         );
       },
     );
