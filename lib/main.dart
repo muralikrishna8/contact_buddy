@@ -16,6 +16,7 @@ class ContactsBuddy extends StatefulWidget {
 class _ContactsBuddyState extends State<ContactsBuddy> {
   List<Contact>? _contacts;
   bool _permissionDenied = false;
+  int _currentPageIndex = 1;
 
   @override
   void initState() {
@@ -33,21 +34,39 @@ class _ContactsBuddyState extends State<ContactsBuddy> {
     }
   }
 
+  _body() => [_favorites(), const Text('events')];
+
   @override
   Widget build(BuildContext context) => MaterialApp(
-      theme: Themes.lightTheme,
-      darkTheme: Themes.darkTheme,
-      themeMode: ThemeMode.system,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+        theme: Themes.lightTheme,
+        darkTheme: Themes.darkTheme,
+        themeMode: ThemeMode.system,
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
           appBar: AppBar(
               title: const Center(
                   child: Text(
             'Contacts 📞',
           ))),
-          body: _body()));
+          body: _body()[_currentPageIndex],
+          bottomNavigationBar: NavigationBar(
+            destinations: const [
+              NavigationDestination(
+                  icon: Icon(Icons.star_border_purple500_outlined),
+                  label: 'favorites'),
+              NavigationDestination(icon: Icon(Icons.cake), label: 'events'),
+            ],
+            selectedIndex: _currentPageIndex,
+            onDestinationSelected: (int index) {
+              setState(() {
+                _currentPageIndex = index;
+              });
+            },
+          ),
+        ),
+      );
 
-  Widget _body() {
+  Widget _favorites() {
     if (_permissionDenied) {
       return const Center(child: Text('Permission denied'));
     }
