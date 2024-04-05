@@ -18,8 +18,7 @@ class ContactPage extends StatelessWidget {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             _photo(context),
-            const SizedBox(height: 20),
-            _nameAndPhone(),
+            _nameAndPhone(context),
             Container(
               decoration: const BoxDecoration(
                 color: Color(0x881F1F1F),
@@ -106,43 +105,95 @@ class ContactPage extends StatelessWidget {
     );
   }
 
-  Container _photo(BuildContext context) {
+  _photo(BuildContext context) {
     return contact.photoOrThumbnail == null
-        ? Container(
-            decoration: const BoxDecoration(
-                color: Color(0x88343435),
-                borderRadius: BorderRadius.all(Radius.circular(5))),
-            margin: const EdgeInsetsDirectional.only(top: 2),
-            width: MediaQuery.of(context).size.width,
-            height: 300,
-            child: Center(
-              child: Text(
-                contact.displayName[0].toUpperCase(),
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 150,
-                    fontWeight: FontWeight.normal),
+        ? Stack(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                    color: Color(0x88343435),
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+                margin: const EdgeInsetsDirectional.only(top: 2),
+                width: MediaQuery.of(context).size.width,
+                height: 300,
+                child: Center(
+                  child: Text(
+                    contact.displayName[0].toUpperCase(),
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 150,
+                        fontWeight: FontWeight.normal),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                child: ClipPath(
+                  clipper: TriangleClipper(),
+                  child: Container(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    height: 70,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                ),
+              )
+            ],
+          )
+        : Stack(children: [
+            Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(0))),
+              clipBehavior: Clip.antiAlias,
+              child: Image.memory(
+                contact.photoOrThumbnail!,
+                scale: 0.1,
               ),
             ),
-          )
-        : Container(
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            clipBehavior: Clip.antiAlias,
-            child: Image.memory(
-              contact.photoOrThumbnail!,
-              scale: 0.1,
-            ),
-          );
+            Positioned(
+              bottom: 0,
+              child: ClipPath(
+                clipper: TriangleClipper(),
+                child: Container(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  height: 70,
+                  width: MediaQuery.of(context).size.width,
+                ),
+              ),
+            )
+          ]);
   }
 
-  Container _nameAndPhone() {
+  Container _nameAndPhone(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.only(left: 20),
+        padding: const EdgeInsets.only(left: 20, right: 20),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            contact.displayName,
-            style: const TextStyle(fontSize: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                contact.displayName,
+                style: const TextStyle(fontSize: 40),
+              ),
+              Container(
+                decoration: ShapeDecoration(
+                    shape: const CircleBorder(),
+                    color: Theme.of(context).primaryColor,
+                    shadows: [
+                      BoxShadow(
+                        color: Theme.of(context).primaryColor,
+                        spreadRadius: 0,
+                        blurRadius: 0,
+                        offset:
+                            const Offset(0, 1), // changes position of shadow
+                      ),
+                    ]),
+                child: const Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child:
+                      Icon(Icons.call_outlined, size: 30, color: Colors.white),
+                ),
+              )
+            ],
           ),
           for (var phone in contact.phones) _number(phone),
         ]));
@@ -182,4 +233,18 @@ extension StringExtensions on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${substring(1)}";
   }
+}
+
+class TriangleClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    path.lineTo(0, size.width);
+    path.lineTo(size.width, size.height);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(TriangleClipper oldClipper) => false;
 }
